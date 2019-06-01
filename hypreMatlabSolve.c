@@ -22,8 +22,6 @@
 
 #include "vis.c"
 
-#include "arthur.h"
-
 
 
 int main (int argc, char *argv[])
@@ -109,10 +107,10 @@ int main (int argc, char *argv[])
     {
       iErr = HYPRE_IJMatrixRead( "matrixK", MPI_COMM_WORLD, HYPRE_PARCSR, &ij_K );
     }
-    else
-    {
-      iErr = HYPRE_IJMatrixRead_binary( "matrixK", MPI_COMM_WORLD, HYPRE_PARCSR, &ij_K );
-    }
+    //else
+    //{
+    //  iErr = HYPRE_IJMatrixRead_binary( "matrixK", MPI_COMM_WORLD, HYPRE_PARCSR, &ij_K );
+    //}
 
 
     if (iErr) 
@@ -136,10 +134,10 @@ int main (int argc, char *argv[])
     {
       iErr = HYPRE_IJMatrixRead( "matrixG", MPI_COMM_WORLD, HYPRE_PARCSR, &ij_G );
     }
-    else
-    {
-      iErr = HYPRE_IJMatrixRead_binary( "matrixG", MPI_COMM_WORLD, HYPRE_PARCSR, &ij_G );
-    }
+    //else
+    //{
+    //  iErr = HYPRE_IJMatrixRead_binary( "matrixG", MPI_COMM_WORLD, HYPRE_PARCSR, &ij_G );
+    //}
 
 
     if (iErr) 
