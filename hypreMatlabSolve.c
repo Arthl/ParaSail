@@ -323,7 +323,7 @@ int main (int argc, char *argv[])
         HYPRE_PCGSetMaxIter(solver, 15000); /* max iterations */
         HYPRE_PCGSetTol(solver, 1e-7); /* conv. tolerance */
         HYPRE_PCGSetTwoNorm(solver, 1); /* use the two norm as the stopping criteria */
-        HYPRE_PCGSetPrintLevel(solver, 2); /* print solve info */
+        HYPRE_PCGSetPrintLevel(solver, 0); /* print solve info */
         HYPRE_PCGSetLogging(solver, 1); /* needed to get run info later */
 
         /* Now set up the ParaSails preconditioner and specify any parameters */
