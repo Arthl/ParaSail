@@ -383,9 +383,6 @@ int main (int argc, char *argv[])
         if (myid ==0) printf("Invalid solver id specified.\n");
       }
 
-    time_index = hypre_InitializeTiming("Operations scale");
-    hypre_BeginTiming(time_index);
-
     // bi_prod = <f,f> + <h,h>
     HYPRE_ParVectorInnerProd(par_f, par_f, bi_prod);//+ inner(h,h) but equal to 0 !!!!!!!
     HYPRE_ParVectorInnerProd(par_h, par_h, abba);
@@ -404,11 +401,6 @@ int main (int argc, char *argv[])
     printf("Initial Norm of the residual is %f\n", pow(gamma[0],0.5));
     }
 
-    hypre_EndTiming(time_index);
-    hypre_PrintTiming("Operation times", MPI_COMM_WORLD);
-    hypre_FinalizeTiming(time_index);
-    hypre_ClearTiming();
-
   // Loop Starts Here
   for (it = 0; it < max_it; it++) 
     { 
@@ -419,9 +411,6 @@ int main (int argc, char *argv[])
     /* PCG with Parasails Preconditioner */
     if (solver_id == 8)
       {
-
-        time_index = hypre_InitializeTiming("PCG - ParaSails Setup");
-        hypre_BeginTiming(time_index);
 
         int    num_iterations;
         double final_res_norm;
@@ -456,21 +445,7 @@ int main (int argc, char *argv[])
 
         /* Now setup and solve! */
         HYPRE_ParCSRPCGSetup(solver, parcsr_K, par_TransFirst, par_D_1);
-
-        hypre_EndTiming(time_index);
-        hypre_PrintTiming("Setup phase times", MPI_COMM_WORLD);
-        hypre_FinalizeTiming(time_index);
-        hypre_ClearTiming();
-        time_index = hypre_InitializeTiming("PCG - ParaSails Solve");
-        hypre_BeginTiming(time_index);
-
         HYPRE_ParCSRPCGSolve(solver, parcsr_K, par_TransFirst, par_D_1);
-
-        hypre_EndTiming(time_index);
-        hypre_PrintTiming("Solve phase times", MPI_COMM_WORLD);
-        hypre_FinalizeTiming(time_index);
-        hypre_ClearTiming();
-
 
         /* Run info - needed logging turned on */
         HYPRE_PCGGetNumIterations(solver, &num_iterations);
@@ -497,9 +472,6 @@ int main (int argc, char *argv[])
       {
         if (myid ==0) printf("Invalid solver id specified.\n");
       }
-
-    time_index = hypre_InitializeTiming("Other operations");
-    hypre_BeginTiming(time_index);
 
     // transFirst = Gmatrix * d_2vector;
     HYPRE_ParCSRMatrixMatvec( 1.0 , parcsr_G , par_D_2 , 0.0 , par_TransFirst );
@@ -554,11 +526,6 @@ int main (int argc, char *argv[])
     // d_2vector = transSecond + beta * d_2vector;
     HYPRE_ParVectorScale( beta[0], par_D_2);
     hypre_ParVectorAxpy( 1.0, par_residual, par_D_2);
-
-    hypre_EndTiming(time_index);
-    hypre_PrintTiming("Operation time 2", MPI_COMM_WORLD);
-    hypre_FinalizeTiming(time_index);
-    hypre_ClearTiming();
 
  }
 
